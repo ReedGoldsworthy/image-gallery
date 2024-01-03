@@ -1,25 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import Lightbox from 'yet-another-react-lightbox';
+import { slides } from './data';
+import 'yet-another-react-lightbox/styles.css';
+import {
+  Captions,
+  Download,
+  Fullscreen,
+  Thumbnails,
+  Zoom,
+} from 'yet-another-react-lightbox/plugins';
+import 'yet-another-react-lightbox/plugins/captions.css';
+import 'yet-another-react-lightbox/plugins/thumbnails.css';
+import Images from './Images';
 
 function App() {
+  // const [open, setOpen] = useState<boolean>(false);
+  const [index, setIndex] = useState<number>(-1);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* <button onClick={() => setOpen(true)}>Open Lightbox</button> */}
+
+      <div className='banner'>
+        <h1>Reed's Gallery</h1>
+        <p> A basic image gallery web app made with React</p>
+        <p> Click on an image to open in gallery mode</p>
+      </div>
+
+      <Images
+        data={slides}
+        onClick={(currentIndex) => setIndex(currentIndex)}
+      />
+
+      <Lightbox
+        plugins={[Captions, Download, Fullscreen, Zoom, Thumbnails]}
+        captions={{
+          showToggle: true,
+          descriptionTextAlign: 'end',
+        }}
+        // open={open}
+        // close={() => setOpen(false)}
+
+        index={index}
+        open={index >= 0}
+        close={() => setIndex(-1)}
+        slides={slides}
+      />
+    </>
   );
 }
 
